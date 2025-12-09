@@ -212,7 +212,7 @@
                         architecture: {
                             title: "선생님-학생 간 SSE 연동 다이어그램",
                             description: "선생님-학생 간 SSE 발행/구독 관계 다이어그램 설명도",
-                            imageUrl: "https://private-user-images.githubusercontent.com/7876764/524374428-35a59dd9-b0b9-47ea-811f-8ccc2ab4a867.png?jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NjUyOTYyMzcsIm5iZiI6MTc2NTI5NTkzNywicGF0aCI6Ii83ODc2NzY0LzUyNDM3NDQyOC0zNWE1OWRkOS1iMGI5LTQ3ZWEtODExZi04Y2NjMmFiNGE4NjcucG5nP1gtQW16LUFsZ29yaXRobT1BV1M0LUhNQUMtU0hBMjU2JlgtQW16LUNyZWRlbnRpYWw9QUtJQVZDT0RZTFNBNTNQUUs0WkElMkYyMDI1MTIwOSUyRnVzLWVhc3QtMSUyRnMzJTJGYXdzNF9yZXF1ZXN0JlgtQW16LURhdGU9MjAyNTEyMDlUMTU1ODU3WiZYLUFtei1FeHBpcmVzPTMwMCZYLUFtei1TaWduYXR1cmU9NzA1MGJiMTc4ZTMyZDM4ODk4NzUyOGY3NzEzNDM1ZTBhYmFiYTBlMDQ3NTdhNmUwOTgxMGU5NzQ3YzQ3YTU4MCZYLUFtei1TaWduZWRIZWFkZXJzPWhvc3QifQ.snZDYvQx2YkV69Ga6WyBmad3THDY6sDSEfgYNlWfzy8"
+                            imageUrl: "https://private-user-images.githubusercontent.com/7876764/524374428-35a59dd9-b0b9-47ea-811f-8ccc2ab4a867.png?jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NjUzMDI4NTcsIm5iZiI6MTc2NTMwMjU1NywicGF0aCI6Ii83ODc2NzY0LzUyNDM3NDQyOC0zNWE1OWRkOS1iMGI5LTQ3ZWEtODExZi04Y2NjMmFiNGE4NjcucG5nP1gtQW16LUFsZ29yaXRobT1BV1M0LUhNQUMtU0hBMjU2JlgtQW16LUNyZWRlbnRpYWw9QUtJQVZDT0RZTFNBNTNQUUs0WkElMkYyMDI1MTIwOSUyRnVzLWVhc3QtMSUyRnMzJTJGYXdzNF9yZXF1ZXN0JlgtQW16LURhdGU9MjAyNTEyMDlUMTc0OTE3WiZYLUFtei1FeHBpcmVzPTMwMCZYLUFtei1TaWduYXR1cmU9OGMxNTE3OTlhYjhlMjU4YWQ0Zjc2NjQyZWQ2NzdjMDJiYmFiZDczNTI5MDlhZGU1YmI4Zjk5ZDMyYzk1ODM0YyZYLUFtei1TaWduZWRIZWFkZXJzPWhvc3QifQ.keBRKDi6YcydAHASTQwDdLDV3z4u2yopkLK7f8NE4os"
                         },
                         problem: "기존 Polling 방식은 트래픽 낭비가 심하고, 10명 이상 동시 접속 시 동기화 지연 및 서버 부하 발생.",
                         solution: "EventSource 객체를 활용하여 SSE 구독 로직을 구현하고, Redis Pub/Sub을 통해 다중 서버 환경에서도 안정적인 메시지 브로드캐스팅이 가능하도록 아키텍처를 설계했습니다. 또한, 연결 끊김 시 자동 재연결 로직과 상태 관리 스토어 연동을 통해 데이터 정합성을 보장했습니다.",
@@ -229,10 +229,15 @@
                     },
                     {
                         projectType: "AIDT",
-                        title: "뷰어<->컨테이너<->콘텐츠 인터페이스 설계 및 기능 구현",
+                        title: "컨테이너<->뷰어<->콘텐츠 인터페이스 설계 및 기능 구현",
                         icon: "fa-eye",
                         color: "blue",
-                        problem: "iframe 구조에서 'postMessage'는 단방향이라, 뷰어 내부의 비동기 DOM 변경을 컨테이너가 실시간 감지 불가.",
+                        architecture: {
+                            title: "컨테이너<->뷰어<->콘텐츠 시퀀스 다이어그램",
+                            description: "시퀀스 다이어그램 설명도",
+                            imageUrl: "https://github.com/user-attachments/assets/0f0b7d04-fc86-4f05-998a-36a017a612e1"
+                        },
+                        problem: "iframe 뷰어 및 다양한 뷰어 타입에서의 데이터 통신을 위해 'postMessage'는 단방향 통신으로 되어 있어서 내부의 비동기 DOM 변경을 컨테이너가 실시간 감지 불가.",
                         solution: "기존 단방향 통신(postMessage)의 한계를 극복하기 위해 MutationObserver를 도입하여 뷰어 내부의 비동기 DOM 변경을 실시간으로 감지했습니다. WeakMap을 사용하여 감지된 DOM 객체의 메모리 누수를 방지하고, 불필요한 변경 사항은 필터링하여 성능을 최적화했습니다.",
                         result: "콘텐츠 제작 방식(iframe 등)에 구애받지 않는 범용적인 인터페이스를 구축했습니다. 사용자 상호작용 데이터를 100%에 가깝게 수집할 수 있게 되었으며, 안정적인 서비스 운영이 가능해졌습니다."
                     },
@@ -297,11 +302,11 @@
                 ],
                 chartType: null,
                 // Root-level architecture for project-wide diagrams
-                architecture: {
-                    title: "Authentication Process & Security Design",
-                    description: "사용자 로그인 시 보안 강화를 위한 시퀀스 설계입니다. <br>클라이언트, 서버, 인증 모듈 간의 유기적인 데이터 흐름과 예외 처리(비밀번호 오류 등) 로직을 시각화하여, <strong>보안 정책을 준수하는 견고한 인증 시스템</strong>을 구축했습니다.",
-                    imageUrl: "https://mermaid.ink/img/pako:eNp1kstu2zAQRX9F0KqBBC-LroI2QIGiK9tF0M2yM6Il0hZFUiQoJ0aQf--QshzHTtYj587cmSEvWEmW4Fta8K-qJBt8yQpfvH-Qv-7u7yTf3P14J1_e333-eCuXyxfJCl-u5MvrB7lcf3yQ5fV7WbB_8O36Wq7uP91J8ZasYAWF0Ea0wW6ttU4boXv0oW-99U60QWivjQutb9A1qNA6J1pQo32P6j_Q4gXfq_ZGO4fqrXWBlaDGaK-8awOF6lB1wXqnQ48a7Z320Lfemz70Wrc49K1v0L6HCoP20HrvW1Chd9Y1qNAH51vrWuytC633vnc9alDoA7TeOteHtned863qg3MNqv-P_wd6_oKfWaW0sEblXNM8yzJKeZ4XWf6clVlmhMxzJbOsyI1QeW6EETITWmhR5IVmWR7yIs8tL7IsL7SZC5VlRihW5EaoyzLPSy1UnhtRmpVGlHmZ57nmhWZZnuclz7Miz43ISiOyzHAlVJYbodiiyEutWClWGlHmpRZZXmZ5boTKCyO0yHPN81LzIjeizHPNizw3QmV5nmV5qUWRG1HmpRZZXmR5boTKCyO0yHPN81LzIjeizHPNizw3QmV5nmV5qUWRG1HmpRZZXmR5boTKCyO0yHPN81LzIjeizHPNizw3QmV5nmV5qUWRG1HmpRZZXmR5boTKCyO0yHPN81LzIjeizHPNizw3QmV5nmV5qUWRG1HmpRZZXmR5boTKCyO0yHPN81LzIjeizHPNizw3QmV5nmV5qUWRG1HmpRZZXmR5boTKCyO0yHPN81LzIjeizHPNizw3QmV5nmV5qUWRG1HmpRZZXmR5boTKCyO0yHPN81LzIjeizHPNizw3QmV5nmV5qUWRG1HmpRZZXmR5boTKCyO0yHPN81LzIjeizHPNizw3QmV5nmV5qUWRG1HmpRZZXmR5boTKCyO0yHPN81LzIjeizE-9K9W_q_8lO7f-A1Zt7TE?type=png"
-                },
+                // architecture: {
+                //     title: "Authentication Process & Security Design",
+                //     description: "사용자 로그인 시 보안 강화를 위한 시퀀스 설계입니다. <br>클라이언트, 서버, 인증 모듈 간의 유기적인 데이터 흐름과 예외 처리(비밀번호 오류 등) 로직을 시각화하여, <strong>보안 정책을 준수하는 견고한 인증 시스템</strong>을 구축했습니다.",
+                //     imageUrl: "https://mermaid.ink/img/pako:eNp1kstu2zAQRX9F0KqBBC-LroI2QIGiK9tF0M2yM6Il0hZFUiQoJ0aQf--QshzHTtYj587cmSEvWEmW4Fta8K-qJBt8yQpfvH-Qv-7u7yTf3P14J1_e333-eCuXyxfJCl-u5MvrB7lcf3yQ5fV7WbB_8O36Wq7uP91J8ZasYAWF0Ea0wW6ttU4boXv0oW-99U60QWivjQutb9A1qNA6J1pQo32P6j_Q4gXfq_ZGO4fqrXWBlaDGaK-8awOF6lB1wXqnQ48a7Z320Lfemz70Wrc49K1v0L6HCoP20HrvW1Chd9Y1qNAH51vrWuytC633vnc9alDoA7TeOteHtned863qg3MNqv-P_wd6_oKfWaW0sEblXNM8yzJKeZ4XWf6clVlmhMxzJbOsyI1QeW6EETITWmhR5IVmWR7yIs8tL7IsL7SZC5VlRihW5EaoyzLPSy1UnhtRmpVGlHmZ57nmhWZZnuclz7Miz43ISiOyzHAlVJYbodiiyEutWClWGlHmpRZZXmZ5boTKCyO0yHPN81LzIjeizHPNizw3QmV5nmV5qUWRG1HmpRZZXmR5boTKCyO0yHPN81LzIjeizHPNizw3QmV5nmV5qUWRG1HmpRZZXmR5boTKCyO0yHPN81LzIjeizHPNizw3QmV5nmV5qUWRG1HmpRZZXmR5boTKCyO0yHPN81LzIjeizHPNizw3QmV5nmV5qUWRG1HmpRZZXmR5boTKCyO0yHPN81LzIjeizHPNizw3QmV5nmV5qUWRG1HmpRZZXmR5boTKCyO0yHPN81LzIjeizHPNizw3QmV5nmV5qUWRG1HmpRZZXmR5boTKCyO0yHPN81LzIjeizHPNizw3QmV5nmV5qUWRG1HmpRZZXmR5boTKCyO0yHPN81LzIjeizHPNizw3QmV5nmV5qUWRG1HmpRZZXmR5boTKCyO0yHPN81LzIjeizE-9K9W_q_8lO7f-A1Zt7TE?type=png"
+                // },
                 cards: [
                     {
                         title: "3D 공간 모니터링 시각화",
@@ -433,7 +438,7 @@
                 // UI Difference for Douclass
                 const isDouclass = card.projectType === 'Douclass';
                 // Remove the left border entirely, keeping only a subtle all-around border
-                const cardBorderClass = isDouclass ? 'border border-teal-200' : 'border border-slate-100'; 
+                const cardBorderClass = isDouclass ? 'border border-slate-100' : 'border border-slate-100'; 
                 const badgeHtml = isDouclass 
                     ? '<span class="ml-auto inline-block text-[12px] uppercase font-bold tracking-wider text-teal-600 bg-teal-50 border border-teal-100 px-2 py-0.5 rounded-full">두클래스 플랫폼</span>' 
                     : (card.projectType === 'AIDT' ? '<span class="ml-auto inline-block text-[12px] uppercase font-bold tracking-wider text-indigo-600 bg-indigo-50 border border-indigo-100 px-2 py-0.5 rounded-full">AIDT 뷰어</span>' : '');
