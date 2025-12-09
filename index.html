@@ -212,7 +212,7 @@
                         architecture: {
                             title: "선생님-학생 간 SSE 연동 다이어그램",
                             description: "선생님-학생 간 SSE 발행/구독 관계 다이어그램 설명도",
-                            imageUrl: "https://private-user-images.githubusercontent.com/7876764/524374428-35a59dd9-b0b9-47ea-811f-8ccc2ab4a867.png?jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NjUzMDM2MDgsIm5iZiI6MTc2NTMwMzMwOCwicGF0aCI6Ii83ODc2NzY0LzUyNDM3NDQyOC0zNWE1OWRkOS1iMGI5LTQ3ZWEtODExZi04Y2NjMmFiNGE4NjcucG5nP1gtQW16LUFsZ29yaXRobT1BV1M0LUhNQUMtU0hBMjU2JlgtQW16LUNyZWRlbnRpYWw9QUtJQVZDT0RZTFNBNTNQUUs0WkElMkYyMDI1MTIwOSUyRnVzLWVhc3QtMSUyRnMzJTJGYXdzNF9yZXF1ZXN0JlgtQW16LURhdGU9MjAyNTEyMDlUMTgwMTQ4WiZYLUFtei1FeHBpcmVzPTMwMCZYLUFtei1TaWduYXR1cmU9MjNhYzdhYWExYTg2MDdhMjFhNDZkZjU0ZmU0MWViYjQ2OTE3YWE2ZWQyZjc4NzY1MzQxMzA2MTU2YmJjOTU2NCZYLUFtei1TaWduZWRIZWFkZXJzPWhvc3QifQ.XECiGDXhB86OdL3glKQXajQFPKu5ugl-eW9lQQHDggs"
+                            imageUrl: "upload_img1.png"
                         },
                         problem: "기존 Polling 방식은 트래픽 낭비가 심하고, 10명 이상 동시 접속 시 동기화 지연 및 서버 부하 발생.",
                         solution: "EventSource 객체를 활용하여 SSE 구독 로직을 구현하고, Redis Pub/Sub을 통해 다중 서버 환경에서도 안정적인 메시지 브로드캐스팅이 가능하도록 아키텍처를 설계했습니다. 또한, 연결 끊김 시 자동 재연결 로직과 상태 관리 스토어 연동을 통해 데이터 정합성을 보장했습니다.",
@@ -235,7 +235,7 @@
                         architecture: {
                             title: "컨테이너<->뷰어<->콘텐츠 시퀀스 다이어그램",
                             description: "시퀀스 다이어그램 설명도",
-                            imageUrl: "https://private-user-images.githubusercontent.com/7876764/524436905-0f0b7d04-fc86-4f05-998a-36a017a612e1.png?jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NjUzMDM2MDgsIm5iZiI6MTc2NTMwMzMwOCwicGF0aCI6Ii83ODc2NzY0LzUyNDQzNjkwNS0wZjBiN2QwNC1mYzg2LTRmMDUtOTk4YS0zNmEwMTdhNjEyZTEucG5nP1gtQW16LUFsZ29yaXRobT1BV1M0LUhNQUMtU0hBMjU2JlgtQW16LUNyZWRlbnRpYWw9QUtJQVZDT0RZTFNBNTNQUUs0WkElMkYyMDI1MTIwOSUyRnVzLWVhc3QtMSUyRnMzJTJGYXdzNF9yZXF1ZXN0JlgtQW16LURhdGU9MjAyNTEyMDlUMTgwMTQ4WiZYLUFtei1FeHBpcmVzPTMwMCZYLUFtei1TaWduYXR1cmU9ZTdhNWI5NDhlOGM3MjU4YTY5YmNhMThhMDQ3ZDVjNTJjYjVkYTY1MjUzNWRkYzJlY2ZlMWU5ZTcyMjY0MmVmZCZYLUFtei1TaWduZWRIZWFkZXJzPWhvc3QifQ.1HTv7DqQjue44-jcnXt3RSFQ1d9lQeKlB67gDM4mwEU"
+                            imageUrl: "upload_img1.png"
                         },
                         problem: "iframe 뷰어 및 다양한 뷰어 타입에서의 데이터 통신을 위해 'postMessage'는 단방향 통신으로 되어 있어서 내부의 비동기 DOM 변경을 컨테이너가 실시간 감지 불가.",
                         solution: "기존 단방향 통신(postMessage)의 한계를 극복하기 위해 MutationObserver를 도입하여 뷰어 내부의 비동기 DOM 변경을 실시간으로 감지했습니다. WeakMap을 사용하여 감지된 DOM 객체의 메모리 누수를 방지하고, 불필요한 변경 사항은 필터링하여 성능을 최적화했습니다.",
