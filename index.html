@@ -235,7 +235,7 @@
                         architecture: {
                             title: "컨테이너<->뷰어<->콘텐츠 시퀀스 다이어그램",
                             description: "시퀀스 다이어그램 설명도",
-                            imageUrl: "https://github.com/user-attachments/assets/0f0b7d04-fc86-4f05-998a-36a017a612e1"
+                            imageUrl: "https://private-user-images.githubusercontent.com/7876764/524436905-0f0b7d04-fc86-4f05-998a-36a017a612e1.png?jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NjUzMDMyMzAsIm5iZiI6MTc2NTMwMjkzMCwicGF0aCI6Ii83ODc2NzY0LzUyNDQzNjkwNS0wZjBiN2QwNC1mYzg2LTRmMDUtOTk4YS0zNmEwMTdhNjEyZTEucG5nP1gtQW16LUFsZ29yaXRobT1BV1M0LUhNQUMtU0hBMjU2JlgtQW16LUNyZWRlbnRpYWw9QUtJQVZDT0RZTFNBNTNQUUs0WkElMkYyMDI1MTIwOSUyRnVzLWVhc3QtMSUyRnMzJTJGYXdzNF9yZXF1ZXN0JlgtQW16LURhdGU9MjAyNTEyMDlUMTc1NTMwWiZYLUFtei1FeHBpcmVzPTMwMCZYLUFtei1TaWduYXR1cmU9ZWU0YTgyNmU2Y2M1YjJiMDRmYzhjNTliYzM2OTFiMjc0YzVhODlkZTc4NTc1YjZlOGU1NTMzZjNjMDMyM2M3NSZYLUFtei1TaWduZWRIZWFkZXJzPWhvc3QifQ.RRmljVAmKfr6rkpG51qs0XX5ShZWWd3XbF_Ih6Zx-90"
                         },
                         problem: "iframe 뷰어 및 다양한 뷰어 타입에서의 데이터 통신을 위해 'postMessage'는 단방향 통신으로 되어 있어서 내부의 비동기 DOM 변경을 컨테이너가 실시간 감지 불가.",
                         solution: "기존 단방향 통신(postMessage)의 한계를 극복하기 위해 MutationObserver를 도입하여 뷰어 내부의 비동기 DOM 변경을 실시간으로 감지했습니다. WeakMap을 사용하여 감지된 DOM 객체의 메모리 누수를 방지하고, 불필요한 변경 사항은 필터링하여 성능을 최적화했습니다.",
