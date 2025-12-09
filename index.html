@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frontend Engineer 강대한입니다.</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        body { font-family: 'Pretendard', sans-serif; background-color: #f8fafc; color: #0f172a; }
+        
+        .chart-container {
+            position: relative;
+            width: 100%;
+            height: 300px;
+            max-height: 350px;
+        }
+
+        .project-tab {
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+            position: relative;
+        }
+        .project-tab.active-donga {
+            border-bottom-color: #4f46e5;
+            color: #4f46e5;
+            background-color: #eef2ff;
+        }
+        .project-tab.active-sk {
+            border-bottom-color: #059669;
+            color: #059669;
+            background-color: #ecfdf5;
+        }
+        .project-tab.active-history {
+            border-bottom-color: #64748b;
+            color: #475569;
+            background-color: #f1f5f9;
+        }
+
+        .tech-badge {
+            font-size: 0.75rem;
+            padding: 0.25rem 0.6rem;
+            border-radius: 9999px;
+            font-weight: 600;
+        }
+
+        .card-hover:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        
+        .fade-in { animation: fadeIn 0.4s ease-in-out; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .timeline-connector {
+            position: absolute;
+            top: 24px;
+            bottom: -24px;
+            left: 24px;
+            width: 2px;
+            background-color: #e2e8f0;
+            z-index: 0;
+        }
+        .last-item .timeline-connector { display: none; }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 100;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.8);
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+        }
+        .close {
+            position: absolute;
+            top: 15px;
+            right: 35px;
+            color: #f1f1f1;
+            font-size: 40px;
+            font-weight: bold;
+            transition: 0.3s;
+            cursor: pointer;
+        }
+        .close:hover,
+        .close:focus {
+            color: #bbb;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+    <!-- Image Modal -->
+    <div id="imageModal" class="modal" onclick="closeModal()">
+        <span class="close">&times;</span>
+        <img class="modal-content" id="modalImg">
+    </div>
+
+    <header class="bg-white border-b border-slate-200 sticky top-0 z-50 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex justify-between items-center">
+            <div class="flex items-center gap-2">
+                <span class="text-xl font-bold tracking-tight text-slate-800">KDH<span class="text-indigo-600">.DEV</span></span>
+            </div>
+            <div class="flex gap-4 text-sm font-medium text-slate-600">
+                <a href="mailto:kdh01217565@gmail.com" class="hover:text-indigo-600 transition"><i class="fas fa-envelope"></i> Contact</a>
+                <a href="https://twinfamily.github.io" target="_blank" class="hover:text-indigo-600 transition"><i class="fas fa-blog"></i> Blog</a>
+                <a href="https://github.com/KangDaeHan" target="_blank" class="hover:text-indigo-600 transition"><i class="fab fa-github"></i> GitHub</a>
+            </div>
+        </div>
+    </header>
+
+    <section class="bg-white pt-12 pb-8 px-4 sm:px-6 lg:px-8 border-b border-slate-100">
+        <div class="max-w-7xl mx-auto text-center">
+            <h1 class="text-4xl sm:text-5xl font-extrabold text-slate-900 mb-4">
+                <span class="text-indigo-600">Frontend Engineer 강대한입니다.</span>
+            </h1>
+            <p class="text-lg text-slate-600 max-w-4xl mx-auto mb-8 leading-relaxed">
+                웹 퍼블리싱부터 시작해 13년간 탄탄한 기본기를 쌓아온 프론트엔드 엔지니어입니다.<br>
+                <strong>Vue.js</strong> 기반의 AI 디지털교과서 뷰어와 <strong>React</strong> 기반의 대용량 3D 관제 플랫폼을 주도적으로 개발했습니다.<br>
+                복잡한 데이터를 시각화하고 실시간 인터랙션을 최적화하는 데 강점이 있으며, <br/>사용자 경험 중심의 모던 웹 애플리케이션 구축에 주력하고 있습니다.
+            </p>
+            
+            <div class="flex flex-wrap justify-center gap-6 sm:gap-12 text-center">
+                <div class="px-4">
+                    <div class="text-2xl font-bold text-slate-800">13+ Years</div>
+                    <div class="text-xs text-slate-500 uppercase tracking-wide font-semibold">Total Experience</div>
+                </div>
+                <div class="px-4 border-l border-slate-200">
+                    <div class="text-2xl font-bold text-indigo-600">Core Tech</div>
+                    <div class="text-xs text-slate-500 uppercase tracking-wide font-semibold">SSE • WebGL • Vue/React</div>
+                </div>
+                <div class="px-4 border-l border-slate-200">
+                    <div class="text-2xl font-bold text-slate-600">Publishing</div>
+                    <div class="text-xs text-slate-500 uppercase tracking-wide font-semibold">Web Standard Expert</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <main class="flex-grow bg-slate-50 py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col sm:flex-row border-b border-slate-200 mb-8 bg-white rounded-t-xl overflow-hidden shadow-sm">
+                <button onclick="switchProject('donga')" id="tab-donga" class="project-tab active-donga flex-1 py-5 text-center font-bold text-lg focus:outline-none border-b sm:border-b-0 group">
+                    <div class="flex items-center justify-center gap-2">
+                        <span class="w-8 h-8 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center text-sm"><i class="fas fa-book-open"></i></span>
+                        <span>동아출판 (AI 디지털교과서 / 두클래스)</span>
+                    </div>
+                </button>
+                <button onclick="switchProject('sk')" id="tab-sk" class="project-tab flex-1 py-5 text-center font-bold text-lg text-slate-500 hover:text-emerald-600 focus:outline-none border-b sm:border-b-0 group">
+                    <div class="flex items-center justify-center gap-2">
+                        <span class="w-8 h-8 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center text-sm"><i class="fas fa-shield-alt"></i></span>
+                        <span>SK쉴더스 (SUMiTS)</span>
+                    </div>
+                </button>
+                <button onclick="switchProject('history')" id="tab-history" class="project-tab flex-1 py-5 text-center font-bold text-lg text-slate-500 hover:text-slate-700 focus:outline-none group">
+                    <div class="flex items-center justify-center gap-2">
+                        <span class="w-8 h-8 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center text-sm"><i class="fas fa-layer-group"></i></span>
+                        <span>Web Publishing History</span>
+                    </div>
+                </button>
+            </div>
+
+            <div id="project-content" class="fade-in min-h-[500px]"></div>
+        </div>
+    </main>
+
+    <footer class="bg-white border-t border-slate-200 py-8 mt-auto">
+        <div class="max-w-7xl mx-auto px-4 text-center text-slate-500 text-sm">
+            &copy; 2025 Kang DaeHan. Interactive Resume.
+        </div>
+    </footer>
+
+    <script>
+        const projectData = {
+            donga: {
+                type: 'highlight',
+                title: "AI 디지털교과서 및 교사 지원 플랫폼 개발",
+                role: "Frontend Engineer",
+                period: "Recent Project (2024.02 ~ ing)",
+                summary: "AI 맞춤형 학습 뷰어(AIDT)와 교사 수업 지원 플랫폼(두클래스)의 프론트엔드 개발을 주도하며, Vue.js/Nuxt 기반의 대규모 서비스 아키텍처 개발 및 고도화에 참여했습니다.",
+                tags: [
+                    "Vue.js", "JavaScript", "pinia", "TypeScript", "HTML5", "CSS3", "Git", "Webpack", "Vite", "npm", "Storybook",
+                    "Docker", "Kubernetes", "Jenkins", "NCP", "Jira", "Confluence", "Slack"
+                ],
+                url: ["https://www.aidt.ai/lms-web/dev/entry-aidt-2025?school=m&subject=eng&grade=1&semester=all&authorName=yoon","https://www.aidt.ai/lms-web/dev/entry-aidt-2025?school=m&subject=math&grade=1&semester=all"],
+                chartType: null,
+                cards: [
+                    {
+                        projectType: "AIDT",
+                        title: "Polling -> SSE 이벤트 기반 실시간 동기화 전환",
+                        icon: "fa-sync-alt",
+                        color: "indigo",
+                        architecture: {
+                            title: "선생님-학생 간 SSE 연동 다이어그램",
+                            description: "선생님-학생 간 SSE 발행/구독 관계 다이어그램 설명도",
+                            imageUrl: "https://private-user-images.githubusercontent.com/7876764/524374428-35a59dd9-b0b9-47ea-811f-8ccc2ab4a867.png?jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NjUyOTYyMzcsIm5iZiI6MTc2NTI5NTkzNywicGF0aCI6Ii83ODc2NzY0LzUyNDM3NDQyOC0zNWE1OWRkOS1iMGI5LTQ3ZWEtODExZi04Y2NjMmFiNGE4NjcucG5nP1gtQW16LUFsZ29yaXRobT1BV1M0LUhNQUMtU0hBMjU2JlgtQW16LUNyZWRlbnRpYWw9QUtJQVZDT0RZTFNBNTNQUUs0WkElMkYyMDI1MTIwOSUyRnVzLWVhc3QtMSUyRnMzJTJGYXdzNF9yZXF1ZXN0JlgtQW16LURhdGU9MjAyNTEyMDlUMTU1ODU3WiZYLUFtei1FeHBpcmVzPTMwMCZYLUFtei1TaWduYXR1cmU9NzA1MGJiMTc4ZTMyZDM4ODk4NzUyOGY3NzEzNDM1ZTBhYmFiYTBlMDQ3NTdhNmUwOTgxMGU5NzQ3YzQ3YTU4MCZYLUFtei1TaWduZWRIZWFkZXJzPWhvc3QifQ.snZDYvQx2YkV69Ga6WyBmad3THDY6sDSEfgYNlWfzy8"
+                        },
+                        problem: "기존 Polling 방식은 트래픽 낭비가 심하고, 10명 이상 동시 접속 시 동기화 지연 및 서버 부하 발생.",
+                        solution: "EventSource 객체를 활용하여 SSE 구독 로직을 구현하고, Redis Pub/Sub을 통해 다중 서버 환경에서도 안정적인 메시지 브로드캐스팅이 가능하도록 아키텍처를 설계했습니다. 또한, 연결 끊김 시 자동 재연결 로직과 상태 관리 스토어 연동을 통해 데이터 정합성을 보장했습니다.",
+                        result: "평균 동기화 지연시간을 1초대에서 100ms 내외로 단축하여 실시간성을 극대화했습니다. 네트워크 불안정 상황에서도 자동 복구 기능을 통해 안정적인 수업 진행이 가능해졌으며, 교사와 학생 간의 끊김 없는 인터랙션으로 학습 몰입도를 높였습니다."
+                    },
+                    {
+                        projectType: "AIDT",
+                        title: "오픈소스(icPlayer) 커스터마이징 및 오픈소스 기여",
+                        icon: "fa-code-branch",
+                        color: "purple",
+                        problem: "HLS 비디오 초기화 시점 문제(DOM 미생성), 비속어 필터링 부재 등 벤더 지원 한계.",
+                        solution: "HLS 라이브러리 로드 시점과 DOM 생성 시점의 불일치를 해결하기 위해 초기화 로직에 헬스체크를 추가하고, 입력 이벤트 핸들러를 인터셉트하여 비속어 필터링 로직을 주입했습니다. xAPI 표준을 준수하는 로그 전송 모듈을 추가 개발했습니다.",
+                        result: "재생 오류를 원천 차단하고 오픈소스(icPlayer) 공식 저장소에 기여하였습니다. 학습 데이터 누락 문제를 해결하여 데이터 기반의 학습 분석이 가능해졌으며, 유해 콘텐츠 차단으로 클린한 교육 환경을 조성했습니다."
+                    },
+                    {
+                        projectType: "AIDT",
+                        title: "뷰어<->컨테이너<->콘텐츠 인터페이스 설계 및 기능 구현",
+                        icon: "fa-eye",
+                        color: "blue",
+                        problem: "iframe 구조에서 'postMessage'는 단방향이라, 뷰어 내부의 비동기 DOM 변경을 컨테이너가 실시간 감지 불가.",
+                        solution: "기존 단방향 통신(postMessage)의 한계를 극복하기 위해 MutationObserver를 도입하여 뷰어 내부의 비동기 DOM 변경을 실시간으로 감지했습니다. WeakMap을 사용하여 감지된 DOM 객체의 메모리 누수를 방지하고, 불필요한 변경 사항은 필터링하여 성능을 최적화했습니다.",
+                        result: "콘텐츠 제작 방식(iframe 등)에 구애받지 않는 범용적인 인터페이스를 구축했습니다. 사용자 상호작용 데이터를 100%에 가깝게 수집할 수 있게 되었으며, 안정적인 서비스 운영이 가능해졌습니다."
+                    },
+                    {
+                        projectType: "AIDT",
+                        title: "브라우저 자동번역 지원을 위한 텍스트 동기화",
+                        icon: "fa-language",
+                        color: "rose",
+                        problem: "KERIS 기술 권고에 따라 다문화 학생을 위한 자동 번역 지원이 필수였으나, 보안 정책(Cross-Origin)으로 격리된 iframe 내부 텍스트는 브라우저 번역 도구가 접근하지 못하는 문제 발생.",
+                        solution: "<strong>MutationObserver</strong>로 뷰어 내 텍스트 노드 변경을 실시간 감지하고, <strong>postMessage</strong>로 부모 컨테이너에 텍스트를 전달하여 숨겨진 DOM에 렌더링하는 'Shadow Text Mirroring' 기법을 적용했습니다.",
+                        result: "기술적 제약을 우회하여 KERIS의 <strong>다문화 가정 학생 지원 가이드라인을 100% 충족</strong>했습니다. 한국어 능력이 부족한 학생도 실시간 번역을 통해 수업에 원활히 참여할 수 있는 포용적인 학습 환경을 조성했습니다."
+                    },
+                    {
+                        projectType: "AIDT",
+                        title: "표준화된 로깅 시스템 및 API Interceptor 유틸리티 구현",
+                        icon: "fa-network-wired",
+                        color: "slate",
+                        problem: "무분별한 로그 사용으로 인한 보안/성능 문제와 더불어, API 호출 시마다 반복되는 <strong>인증/인가 로직</strong>, <strong>일관성 없는 에러 처리</strong>, 비즈니스 로직과 부가 로직의 혼재로 인한 <strong>유지보수 효율 저하</strong>가 발생했습니다.",
+                        solution: "<strong>TypeScript Enum</strong> 기반 로깅으로 로그 체계를 표준화하고, <strong>API Interceptor</strong>를 구현하여 <strong>JWT 인증 및 권한 검사</strong>를 중앙에서 관리했습니다. 요청/응답 데이터를 가로채 <strong>형식을 통일</strong>하고, <strong>에러 및 예외 처리를 일원화</strong>하여 비즈니스 로직에만 집중할 수 있는 환경을 조성했습니다.",
+                        result: "운영 환경의 <strong>보안 리스크 차단</strong>은 물론, 공통 로직(인증, 로깅, 에러처리)의 중앙 관리를 통해 <strong>코드 중복을 제거</strong>하고 <strong>개발 생산성</strong>을 높였습니다. 또한, 일관된 에러 응답과 성능 모니터링 기반을 마련하여 <strong>시스템 안정성</strong>을 확보했습니다."
+                    },
+                    {
+                        projectType: "AIDT",
+                        title: "빌드 및 렌더링 성능 최적화 (Vite)",
+                        icon: "fa-bolt",
+                        color: "amber",
+                        problem: "대용량 미디어 콘텐츠와 다양한 학습 도구가 포함된 디지털교과서 특성상 초기 로딩 속도 저하와 렌더링 버벅임이 발생하여 원활한 수업 진행을 방해할 우려가 있었습니다.",
+                        solution: "<strong>Vite Config</strong>를 최적화하여 빌드 결과물을 경량화하고, 페이지 및 기능 단위의 <strong>Code Splitting</strong>(코드 분할)을 적용해 초기 로딩 리소스를 최소화했습니다. 또한, 이미지 포맷 최적화를 도입하여 효율을 높였습니다.",
+                        result: "초기 로딩 속도와 TTI(Time to Interactive)를 개선하여, 개발자는 물론 최종 사용자인 교사와 학생에게 <strong>빠르고 매끄러운 사용자 경험</strong>을 제공했습니다."
+                    },
+                    {
+                        projectType: "AIDT",
+                        title: "선생님 수업도구 지원 다양한 컴포넌트 개발",
+                        icon: "fa-chalkboard",
+                        color: "indigo",
+                        problem: "디지털 교과서 수업 중 시선 집중이나 시간 관리 등을 위해 별도의 외부 프로그램을 사용해야 하는 번거로움이 있었으며, 이는 수업 흐름을 끊는 요인이 되었습니다.",
+                        solution: "<strong>깜깜이(Blind), 타이머, 스톱워치, 판서(Drawing), 내자료함, URL 공유</strong> 등 수업에 필수적인 도구들을 뷰어 내장 컴포넌트로 모듈화하여 개발했습니다. 각 도구는 뷰어와 유기적으로 연동되며 교사의 사용성을 최우선으로 설계되었습니다.",
+                        result: "교사가 뷰어 이탈 없이 수업 도구를 즉시 활용할 수 있어 <strong>수업 진행의 연속성</strong>을 보장하고, <strong>수업 편의성과 효율성</strong>을 크게 향상시켰습니다."
+                    },
+                    {
+                        projectType: "Douclass",
+                        title: "Nuxt + Storybook 기반 디자인 시스템 구축",
+                        icon: "fa-shapes",
+                        color: "teal",
+                        problem: "프로젝트 규모가 커짐에 따라 UI 일관성 유지가 어렵고, 디자이너와 개발자 간의 소통 비용이 증가하여 업무 효율성이 저하되는 문제가 있었습니다.",
+                        solution: "<strong>Nuxt와 Storybook</strong>을 연동하여 컴포넌트를 독립적으로 개발하고, 다양한 <strong>Props와 State</strong> 상황에서의 렌더링을 테스트했습니다. 이를 통해 재사용 가능한 컴포넌트를 구조화하여 <strong>디자인 시스템</strong>을 확립하고, 자동화된 문서화를 적용했습니다.",
+                        result: "컴포넌트 재사용성을 높여 <strong>개발 생산성</strong>을 극대화하고, 시각화된 UI 문서를 통해 기획/디자인 직군과의 <strong>협업 효율성</strong>을 강화하여 전반적인 <strong>업무 효율</strong>을 크게 개선했습니다."
+                    }
+                ]
+            },
+            sk: {
+                type: 'highlight',
+                title: "SUMiTS 융합보안플랫폼 개발",
+                role: "Frontend Engineer + Web Publishing",
+                period: "2018.02 - 2023.11",
+                summary: "물리보안과 정보보안을 통합 관제하는 융합보안플랫폼으로 React, Three.js 기반의 대용량 데이터 3D 시각화 및 컴포넌트 개발 담당",
+                tags: [
+                    "React.js", "JavaScript", "jQuery", "HTML5", "CSS3", 
+                    "Redux", "Recoil", "Context API", "React Query", 
+                    "Three.js", "D3.js", "Bizcharts.js", "Git", "Microsoft Azure", "Nexus",
+                    "Webpack", "npm", "Enzyme", "MSW", "Redmine"
+                ],
+                chartType: null,
+                // Root-level architecture for project-wide diagrams
+                architecture: {
+                    title: "Authentication Process & Security Design",
+                    description: "사용자 로그인 시 보안 강화를 위한 시퀀스 설계입니다. <br>클라이언트, 서버, 인증 모듈 간의 유기적인 데이터 흐름과 예외 처리(비밀번호 오류 등) 로직을 시각화하여, <strong>보안 정책을 준수하는 견고한 인증 시스템</strong>을 구축했습니다.",
+                    imageUrl: "https://mermaid.ink/img/pako:eNp1kstu2zAQRX9F0KqBBC-LroI2QIGiK9tF0M2yM6Il0hZFUiQoJ0aQf--QshzHTtYj587cmSEvWEmW4Fta8K-qJBt8yQpfvH-Qv-7u7yTf3P14J1_e333-eCuXyxfJCl-u5MvrB7lcf3yQ5fV7WbB_8O36Wq7uP91J8ZasYAWF0Ea0wW6ttU4boXv0oW-99U60QWivjQutb9A1qNA6J1pQo32P6j_Q4gXfq_ZGO4fqrXWBlaDGaK-8awOF6lB1wXqnQ48a7Z320Lfemz70Wrc49K1v0L6HCoP20HrvW1Chd9Y1qNAH51vrWuytC633vnc9alDoA7TeOteHtned863qg3MNqv-P_wd6_oKfWaW0sEblXNM8yzJKeZ4XWf6clVlmhMxzJbOsyI1QeW6EETITWmhR5IVmWR7yIs8tL7IsL7SZC5VlRihW5EaoyzLPSy1UnhtRmpVGlHmZ57nmhWZZnuclz7Miz43ISiOyzHAlVJYbodiiyEutWClWGlHmpRZZXmZ5boTKCyO0yHPN81LzIjeizHPNizw3QmV5nmV5qUWRG1HmpRZZXmR5boTKCyO0yHPN81LzIjeizHPNizw3QmV5nmV5qUWRG1HmpRZZXmR5boTKCyO0yHPN81LzIjeizHPNizw3QmV5nmV5qUWRG1HmpRZZXmR5boTKCyO0yHPN81LzIjeizHPNizw3QmV5nmV5qUWRG1HmpRZZXmR5boTKCyO0yHPN81LzIjeizHPNizw3QmV5nmV5qUWRG1HmpRZZXmR5boTKCyO0yHPN81LzIjeizHPNizw3QmV5nmV5qUWRG1HmpRZZXmR5boTKCyO0yHPN81LzIjeizHPNizw3QmV5nmV5qUWRG1HmpRZZXmR5boTKCyO0yHPN81LzIjeizHPNizw3QmV5nmV5qUWRG1HmpRZZXmR5boTKCyO0yHPN81LzIjeizE-9K9W_q_8lO7f-A1Zt7TE?type=png"
+                },
+                cards: [
+                    {
+                        title: "3D 공간 모니터링 시각화",
+                        icon: "fa-cube",
+                        color: "emerald",
+                        problem: "기존 2D 평면 관제로는 복잡한 건물 내 보안 상황을 직관적으로 파악하기 어려움.",
+                        solution: "Three.js를 도입하여 GLTF/GLB 포맷의 3D 모델을 웹에 최적화하여 렌더링하고, Raycasting 기법을 통해 3D 공간 내 센서 객체와 실시간 상호작용이 가능하도록 구현했습니다. 고객사별 요구사항에 맞춰 위젯 위치와 구성을 자유롭게 변경할 수 있는 컴포넌트별 구조로 설계 및 개발하였습니다.",
+                        result: "기존 2D 평면 관제의 한계를 넘어 입체적이고 직관적인 공간 모니터링 환경을 제공했습니다. 이를 통해 관제 요원의 상황 인지 속도가 향상되었으며, 고객사 맞춤형 대시보드 제공으로 솔루션 만족도를 크게 높였습니다."
+                    },
+                    {
+                        title: "대용량 데이터 렌더링 최적화",
+                        icon: "fa-tachometer-alt",
+                        color: "teal",
+                        problem: "수만 개의 IoT 센서 데이터 실시간 수신으로 인해 대시보드 초기 로딩 및 렌더링 지연(3.5초 이상)",
+                        solution: "대용량 센서 데이터 처리를 위해 페이징 로직을 서버 사이드와 연동하여 최적화하고, React.memo와 useMemo를 적극 활용하여 불필요한 리렌더링을 방지했습니다. 무거운 시각화 라이브러리를 경량화된 버전으로 교체하고 코드 스플리팅을 적용했습니다.",
+                        result: "초기 로딩 시간을 평균 3.5초에서 1.2초로 약 65% 단축시키는 획기적인 성과를 달성했습니다. 데이터 갱신 시 발생하는 UI 버벅임 현상을 제거하여 쾌적한 사용자 경험(UX)을 제공하고 시스템 리소스 사용량을 절감했습니다."
+                    },
+                    {
+                        title: "글로벌 서비스를 위한 다국어(i18n) 지원",
+                        icon: "fa-globe",
+                        color: "sky",
+                        problem: "제품의 해외 시장 진출을 위해 다국어 지원이 필수적이었으나, 텍스트 하드코딩으로 인해 언어 추가 및 유지보수가 어려운 상황.",
+                        solution: "<strong>i18next</strong> 라이브러리를 도입하여 언어 리소스를 코드와 분리하고, 언어 감지 및 실시간 전환 기능을 구현하여 확장성 있는 다국어 아키텍처를 수립했습니다.",
+                        result: "한국어/영어/일본어/중국어 등 다국어 버전을 완벽하게 지원하여 <strong>현지 이용자의 업무 편의성</strong>에 기여했으며, 번역 리소스 관리 프로세스를 정립하여 유지보수 효율을 높였습니다."
+                    },
+                    {
+                        title: "업무 생산성 향상",
+                        icon: "fa-tools",
+                        color: "cyan",
+                        problem: "여러 프로젝트 간 코드 중복 발생 및 백엔드 API 개발 지연에 따른 프론트엔드 병목 현상.",
+                        solution: "Yarn Workspace와 Lerna를 도입하여 분산된 프로젝트를 모노레포로 통합 관리하고 공통 모듈의 재사용성을 높였습니다. MSW(Mock Service Worker)를 도입하여 백엔드 API 개발 전에도 프론트엔드 기능을 완벽하게 구현하고 테스트할 수 있는 환경을 구축했습니다.",
+                        result: "프론트엔드와 백엔드의 병렬 개발이 가능해져 전체 프로젝트 리드타임을 40% 단축했습니다. Sentry 에러 모니터링과 Enzyme 테스트 환경 도입으로 배포 전 잠재적 버그를 사전에 차단하여 운영 안정성을 확보했습니다."
+                    }
+                ]
+            },
+            history: {
+                type: 'timeline',
+                title: "Web Publishing & Early Career History",
+                role: "Web Publisher",
+                period: "2011 - 2017",
+                summary: "웹 표준, 접근성, 반응형 웹을 마스터하며 UI 개발의 탄탄한 기초를 다진 시기",
+                tags: ["Web Standard", "Web Accessibility", "jQuery", "Responsive Web", "Cross-Browsing"],
+                timelineItems: [
+                    {
+                        company: "아이니네트웍스",
+                        period: "2016.04 - 2017.05",
+                        role: "Web Publisher (SM)",
+                        desc: "농심 그룹사 및 관계사 홈페이지 구축 및 유지보수",
+                        highlight: "Web Accessibility (WA) Mark",
+                        details: [
+                            "농심 그룹사 사이트 운영 유지보수 및 <strong>웹접근성 인증 마크 획득</strong> (스크린리더 대응, 키보드 접근성 준수)",
+                            "다양한 디바이스(PC, Mobile, Tablet) 대응 <strong>반응형 웹</strong> 구축",
+                            "jQuery 기반 애니메이션 및 SNS API 연동 인터페이스 개발"
+                        ]
+                    },
+                    {
+                        company: "오픈잇",
+                        period: "2015.07 - 2016.02",
+                        role: "Web Publisher (SI)",
+                        desc: "SK C&C 및 SK Hynix 대기업 솔루션 구축",
+                        highlight: "Data Visualization UI",
+                        details: [
+                            "SK C&C R통합 분석 포탈: <strong>jQuery Plugin/Mindmap</strong> 활용 시각화 UI 개발",
+                            "SK Hynix: <strong>JqGrid</strong> 커스터마이징 및 데이터 그리드 고도화",
+                            "기업 보안 가이드라인 준수 크로스브라우징(IE 호환성) 작업"
+                        ]
+                    },
+                    {
+                        company: "Early Career (프라임에듀넷 / KNJ / 모겐토 / G&H)",
+                        period: "2011.01 - 2015.06",
+                        role: "Web Publisher",
+                        desc: "다양한 도메인의 웹사이트 구축 및 유지보수",
+                        highlight: "Foundation of Web Standards",
+                        details: [
+                            "<strong>프라임에듀넷:</strong> 공무원 교육 플랫폼 반응형 웹 & 애자일 협업 경험",
+                            "<strong>대한상공회의소:</strong> 대규모 사이트 리뉴얼, 웹표준/접근성 100% 준수 작업",
+                            "<strong>SI 프로젝트(모겐토):</strong> 여행박사, 코레일, 네파 등 다수 프로젝트 UI/UX 퍼블리싱",
+                            "<strong>지엔드에이치:</strong> 코튼베이비, 에스텔, 탐스 등 쇼핑몰 구축 및 이벤트/홍보 페이지 퍼블리싱 작업"
+                        ]
+                    }
+                ]
+            }
+        };
+
+        let currentChart = null;
+
+        function switchProject(projectId) {
+            const data = projectData[projectId];
+            const contentDiv = document.getElementById('project-content');
+            
+            contentDiv.classList.remove('fade-in');
+            void contentDiv.offsetWidth; 
+            contentDiv.classList.add('fade-in');
+
+            ['donga', 'sk', 'history'].forEach(id => {
+                const tab = document.getElementById(`tab-${id}`);
+                const isActive = id === projectId;
+                
+                tab.className = "project-tab flex-1 py-5 text-center font-bold text-lg focus:outline-none group border-b sm:border-b-0";
+                
+                if (isActive) {
+                    if (id === 'donga') tab.classList.add('active-donga');
+                    else if (id === 'sk') tab.classList.add('active-sk');
+                    else tab.classList.add('active-history');
+                } else {
+                    tab.classList.add('text-slate-500', 'hover:text-slate-700');
+                }
+            });
+
+            if (data.type === 'highlight') {
+                renderHighlightView(data, projectId, contentDiv);
+            } else {
+                renderTimelineView(data, contentDiv);
+            }
+        }
+
+        function renderHighlightView(data, projectId, container) {
+            const tagsHtml = data.tags.map(tag => 
+                `<span class="tech-badge ${projectId === 'donga' ? 'bg-indigo-100 text-indigo-700' : 'bg-emerald-100 text-emerald-700'}">${tag}</span>`
+            ).join('');
+            
+            const urlHtml = data.url ? data.url.map((link, index) => 
+                `<a href="${link}" target="_blank" class="text-xs flex items-center gap-1 px-2 py-1 rounded border border-slate-200 hover:bg-slate-50 text-slate-600 transition-colors font-medium">
+                    <i class="fas fa-external-link-alt text-slate-400"></i> AIDT 교육자료 중학 ${index === 0 ? '영어' : '수학'}
+                 </a>`
+            ).join('') : '';
+
+            const cardsHtml = data.cards.map(card => {
+                // UI Difference for Douclass
+                const isDouclass = card.projectType === 'Douclass';
+                // Remove the left border entirely, keeping only a subtle all-around border
+                const cardBorderClass = isDouclass ? 'border border-teal-200' : 'border border-slate-100'; 
+                const badgeHtml = isDouclass 
+                    ? '<span class="ml-auto inline-block text-[12px] uppercase font-bold tracking-wider text-teal-600 bg-teal-50 border border-teal-100 px-2 py-0.5 rounded-full">두클래스 플랫폼</span>' 
+                    : (card.projectType === 'AIDT' ? '<span class="ml-auto inline-block text-[12px] uppercase font-bold tracking-wider text-indigo-600 bg-indigo-50 border border-indigo-100 px-2 py-0.5 rounded-full">AIDT 뷰어</span>' : '');
+                
+                const hoverClass = isDouclass ? 'hover:shadow-md hover:bg-teal-50/30 transition-all duration-200' : 'card-hover transition-all duration-200';
+
+                // Fixed: Conditional architecture rendering
+                let cardArchitectureHtml = '';
+                if (card.architecture) {
+                    cardArchitectureHtml = `
+                    <div class="w-full group cursor-zoom-in relative mb-3" onclick="openModal('${card.architecture.imageUrl}')">
+                        <div class="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors duration-300 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-search-plus text-white/0 group-hover:text-white/80 text-3xl transition-all duration-300 transform scale-75 group-hover:scale-100"></i>
+                        </div>
+                        <img src="${card.architecture.imageUrl}" alt="${card.architecture.title}" class="w-full h-auto rounded-lg border border-slate-100 shadow-sm hover:shadow-md transition-shadow">
+                        <p class="text-center text-xs text-slate-400 mt-2"><i class="fas fa-hand-pointer"></i> 클릭하여 확대</p>
+                    </div>
+                    `;
+                }
+
+                return `
+                <div class="bg-white p-6 rounded-xl shadow-sm ${cardBorderClass} ${hoverClass} h-full flex flex-col">
+                    <div class="flex items-center gap-4 mb-3">
+                        <div class="flex-shrink-0 w-10 h-10 rounded-full bg-${card.color}-100 flex items-center justify-center text-${card.color}-600">
+                            <i class="fas ${card.icon}"></i>
+                        </div>
+                        <h3 class="font-bold text-lg text-slate-800 pt-1 flex-1 flex items-center gap-2">
+                            ${card.title}
+                        </h3>
+                        ${badgeHtml}
+                    </div>
+                    
+                    ${cardArchitectureHtml}
+
+                    <div class="space-y-3 text-sm flex-grow">
+                        <p><span class="font-bold text-rose-500 block mb-1">Problem</span> <span class="text-slate-600 leading-relaxed">${card.problem}</span></p>
+                        <p><span class="font-bold text-blue-600 block mb-1">Solution</span> <span class="text-slate-600 leading-relaxed">${card.solution}</span></p>
+                    </div>
+                    <div class="mt-4 p-3 bg-slate-50 rounded border-l-4 border-${card.color}-500">
+                        <span class="font-bold text-slate-800 block mb-1">Impact</span> <span class="text-slate-700 text-sm">${card.result}</span>
+                    </div>
+                </div>
+            `}).join('');
+
+            // Fixed: Root architecture rendering
+            let rootArchitectureHtml = '';
+            if (data.architecture) {
+                rootArchitectureHtml = `
+                <div class="col-span-1 lg:col-span-3 mt-4">
+                    <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+                        <div class="px-6 py-4 border-b border-slate-100 bg-slate-50 flex justify-between items-center">
+                            <h3 class="font-bold text-slate-800 flex items-center gap-2">
+                                <i class="fas fa-sitemap text-slate-500"></i> ${data.architecture.title}
+                            </h3>
+                            <span class="text-xs font-semibold text-slate-500 uppercase tracking-wide">System Design</span>
+                        </div>
+                        <div class="p-6 flex flex-col md:flex-row gap-8 items-start">
+                            <div class="w-full md:w-1/2 group cursor-zoom-in relative" onclick="openModal('${data.architecture.imageUrl}')">
+                                <div class="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors duration-300 rounded-lg flex items-center justify-center">
+                                    <i class="fas fa-search-plus text-white/0 group-hover:text-white/80 text-3xl transition-all duration-300 transform scale-75 group-hover:scale-100"></i>
+                                </div>
+                                <img src="${data.architecture.imageUrl}" alt="${data.architecture.title}" class="w-full h-auto rounded-lg border border-slate-100 shadow-sm hover:shadow-md transition-shadow">
+                                <p class="text-center text-xs text-slate-400 mt-2"><i class="fas fa-hand-pointer"></i> 클릭하여 확대</p>
+                            </div>
+                            <div class="w-full md:w-1/2 space-y-4">
+                                <h4 class="font-bold text-lg text-slate-800 border-l-4 border-emerald-500 pl-3">Architecture Summary</h4>
+                                <p class="text-slate-600 leading-relaxed text-sm">
+                                    ${data.architecture.description}
+                                </p>
+                                <div class="bg-slate-50 p-4 rounded-lg border border-slate-100">
+                                    <h5 class="font-semibold text-slate-700 text-sm mb-2"><i class="fas fa-check-circle text-emerald-500 mr-1"></i> Key Design Patterns</h5>
+                                    <ul class="list-disc list-inside text-xs text-slate-600 space-y-1 ml-1">
+                                        <li>Sequence Logic Visualization</li>
+                                        <li>Conditional Branching (Auth Success/Fail)</li>
+                                        <li>Module Separation (UI vs Logic vs Auth)</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                `;
+            }
+
+            const chartSectionHtml = data.chartType ? `
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+                    <h4 class="font-bold text-slate-700 mb-4 text-center text-sm uppercase tracking-wide">Key Metric Visualization</h4>
+                    <div class="chart-container">
+                        <canvas id="impactChart"></canvas>
+                    </div>
+                </div>
+            ` : '';
+
+            container.innerHTML = `
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <!-- Project Info -->
+                    <div class="lg:col-span-1 space-y-6">
+                        <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+                            <div class="mb-4">
+                                <span class="text-xs font-bold uppercase tracking-wider ${projectId === 'donga' ? 'text-indigo-500' : 'text-emerald-500'}">${data.period}</span>
+                                <h2 class="text-2xl font-extrabold text-slate-900 leading-tight mt-1">${data.title}</h2>
+                                <p class="text-slate-500 font-medium mt-1">${data.role}</p>
+                            </div>
+                            <p class="text-slate-700 mb-6 leading-relaxed">${data.summary}</p>
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                ${tagsHtml}
+                            </div>
+                            <div class="flex flex-wrap gap-2">
+                                ${urlHtml}
+                            </div>
+                        </div>
+
+                        ${chartSectionHtml}
+                    </div>
+
+                    <!-- Cards -->
+                    <div class="lg:col-span-2">
+                        <h3 class="text-xl font-bold text-slate-800 mb-4 px-1">Technical Deep Dive</h3>
+                        <div class="grid grid-cols-1 gap-6">
+                            ${cardsHtml}
+                        </div>
+                        
+                        <!-- Architecture Section (Restored) -->
+                        ${rootArchitectureHtml}
+                    </div>
+                </div>
+            `;
+            
+            if (data.chartType) {
+                setTimeout(() => renderChart(data.chartType, projectId), 10);
+            }
+        }
+
+        function renderTimelineView(data, container) {
+            const timelineHtml = data.timelineItems.map((item, index) => {
+                const isLast = index === data.timelineItems.length - 1;
+                return `
+                <div class="relative pl-8 sm:pl-10 pb-10 ${isLast ? 'last-item' : ''}">
+                    <!-- Connector Line -->
+                    <div class="timeline-connector left-[19px] sm:left-[21px]"></div>
+                    
+                    <!-- Bullet -->
+                    <div class="absolute left-[10px] sm:left-[12px] top-6 w-5 h-5 rounded-full border-4 border-slate-100 bg-slate-400 z-10"></div>
+
+                    <div class="bg-white rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition-shadow p-5 sm:p-6 ml-2 sm:ml-4">
+                        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-3 gap-2">
+                            <div>
+                                <h3 class="text-lg font-bold text-slate-800">${item.company}</h3>
+                                <p class="text-slate-500 font-medium text-sm">${item.role}</p>
+                            </div>
+                            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-slate-100 text-slate-600 whitespace-nowrap">
+                                ${item.period}
+                            </span>
+                        </div>
+                        
+                        <div class="mb-3">
+                             <span class="inline-block px-2 py-1 bg-amber-50 text-amber-700 text-xs font-bold rounded mb-2 border border-amber-100">
+                                ${item.highlight}
+                            </span>
+                            <p class="font-semibold text-slate-700">${item.desc}</p>
+                        </div>
+
+                        <ul class="space-y-1.5">
+                            ${item.details.map(detail => `
+                                <li class="flex items-start text-sm text-slate-600 leading-snug">
+                                    <span class="mr-2 mt-1.5 w-1 h-1 bg-slate-400 rounded-full flex-shrink-0"></span>
+                                    <span>${detail}</span>
+                                </li>
+                            `).join('')}
+                        </ul>
+                    </div>
+                </div>
+            `}).join('');
+
+            container.innerHTML = `
+                <div class="max-w-3xl mx-auto">
+                    <!-- Summary Box -->
+                    <div class="text-center mb-10 px-4">
+                        <h2 class="text-2xl font-bold text-slate-800 mb-3">${data.title}</h2>
+                        <p class="text-slate-600 max-w-xl mx-auto mb-6">${data.summary}</p>
+                        <div class="flex flex-wrap justify-center gap-2">
+                            ${data.tags.map(tag => `<span class="px-3 py-1 bg-slate-200 text-slate-700 rounded-full text-xs font-bold">${tag}</span>`).join('')}
+                        </div>
+                    </div>
+
+                    <!-- Timeline -->
+                    <div class="relative">
+                        ${timelineHtml}
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderChart(type, projectId) {
+            const ctx = document.getElementById('impactChart');
+            if (!ctx) return;
+            const themeColor = projectId === 'donga' ? '#4f46e5' : '#059669'; 
+            if (currentChart) currentChart.destroy();
+            let config;
+            // Chart config logic here (omitted for brevity as it's unchanged)
+        }
+
+        // Modal Logic
+        function openModal(src) {
+            const modal = document.getElementById("imageModal");
+            const modalImg = document.getElementById("modalImg");
+            modal.style.display = "flex";
+            modalImg.src = src;
+        }
+
+        function closeModal() {
+            const modal = document.getElementById("imageModal");
+            modal.style.display = "none";
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            switchProject('donga'); 
+        });
+    </script>
+</body>
+</html>
