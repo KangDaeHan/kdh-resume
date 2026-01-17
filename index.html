@@ -209,6 +209,51 @@
                 border-radius: 0.5rem !important; 
             }
         }
+
+        @media print {
+          /* 1. 배경색 및 이미지 강제 출력 (생략 시 배경이 하얗게 나옴) */
+          * {
+              -webkit-print-color-adjust: exact !important;
+              print-color-adjust: exact !important;
+          }
+
+          /* 2. 페이지 여백 설정 (A4 기준) */
+          @page {
+              size: A4;
+              margin: 10mm; /* 출력 시 상하좌우 여백 */
+          }
+
+          /* 3. 전체 컨테이너 설정 - 잘림 방지 */
+          html, body {
+              width: 210mm; /* A4 너비 */
+              height: auto !important;
+              overflow: visible !important;
+          }
+
+          /* 4. 섹션이나 카드 내부에서 페이지가 잘리는 것 방지 */
+          section, .resume-item, .experience-item, .project-item, .card {
+              page-break-inside: avoid; /* 구형 브라우저 대응 */
+              break-inside: avoid;      /* 최신 브라우저 대응 */
+              margin-bottom: 20px;      /* 섹션 간 간격 */
+          }
+
+          /* 5. 특정 요소가 잘리지 않고 다음 페이지로 넘어가게 설정 */
+          h1, h2, h3 {
+              page-break-after: avoid;
+          }
+
+          /* 6. Flexbox 레이아웃이 깨질 경우 Block으로 변경 (선택 사항) */
+          /* 만약 레이아웃이 심하게 깨진다면 아래 주석을 해제하세요. */
+          /* .container {
+              display: block !important;
+          }
+          */
+
+          /* 7. 불필요한 요소 숨기기 (예: 상단 이동 버튼 등) */
+          .no-print, #scroll-to-top {
+              display: none !important;
+          }
+        }
     </style>
 </head>
 <body class="bg-white relative">
