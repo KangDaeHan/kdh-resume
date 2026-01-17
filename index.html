@@ -86,7 +86,7 @@
             margin-right: 0.4rem;
             margin-bottom: 0.4rem;
             /* 인쇄 시 뱃지가 쪼개지지 않도록 방지 */
-            break-inside: avoid; 
+            /* break-inside: avoid;  */
             -webkit-print-color-adjust: exact;
         }
         
@@ -96,7 +96,7 @@
             padding-bottom: 2rem;
             border-bottom: 1px dashed #e5e7eb;
             /* 프로젝트 단위가 페이지 경계에 걸칠 때 잘리지 않고 다음 페이지로 넘김 */
-            break-inside: avoid;
+            /* break-inside: avoid; */
         }
         .project-item.last-item {
             border-bottom: none;
@@ -153,10 +153,10 @@
             .no-print { display: none !important; }
 
             /* 2. 페이지 설정: 여백을 0으로 설정하여 브라우저 머리글/바닥글 제거 */
-            @page {
+            /* @page {
                 size: A4;
                 margin: 0; 
-            }
+            } */
 
             /* 3. 배경색 및 그래픽 강제 출력 설정 */
             body {
@@ -208,6 +208,20 @@
             img {
                 border-radius: 0.5rem !important; 
             }
+
+            /* 헤더 레이아웃 강제 (인적사항이 프로필 이미지 옆에 유지되도록) */
+            header {
+                display: flex !important;
+                flex-direction: row !important;
+                align-items: flex-start !important;
+            }
+            header > div:first-child {
+                flex-shrink: 0 !important;
+            }
+            header > div:last-child {
+                margin-top: 0 !important;
+                margin-left: 2.5rem !important;
+            }
         }
 
         @media print {
@@ -232,14 +246,20 @@
 
           /* 4. 섹션이나 카드 내부에서 페이지가 잘리는 것 방지 */
           section, .resume-item, .experience-item, .project-item, .card {
-              page-break-inside: avoid; /* 구형 브라우저 대응 */
-              break-inside: avoid;      /* 최신 브라우저 대응 */
+              /* page-break-inside: avoid; */ /* 구형 브라우저 대응 */
+              /* break-inside: avoid; */      /* 최신 브라우저 대응 */
               margin-bottom: 20px;      /* 섹션 간 간격 */
+          }
+
+          .pdf-break-inside {
+            page-break-inside: avoid;
+            break-inside: avoid;
+            /* padding-top: 20px; */
           }
 
           /* 5. 특정 요소가 잘리지 않고 다음 페이지로 넘어가게 설정 */
           h1, h2, h3 {
-              page-break-after: avoid;
+              /* page-break-after: avoid; */
           }
 
           /* 6. Flexbox 레이아웃이 깨질 경우 Block으로 변경 (선택 사항) */
@@ -267,10 +287,11 @@
 
     <div class="max-w-4xl mx-auto px-6 py-12">
         
-        <header class="flex flex-col md:flex-row items-start md:items-center mb-16 break-inside-avoid">
+        <header class="flex flex-col md:flex-row items-start md:items-center mb-16">
             <div>
               <span><img src="./image/profile.jpg" alt="Profile Picture" class="w-40 h-30 rounded-lg object-cover mb-4 bg-gray-200"></span>
             </div>
+            <!-- 인적사항 영역 -->
             <div class="mt-6 md:mt-0 flex flex-col md:items-start gap-1 text-sm md:text-base text-gray-600 ml-10">
               <h1 class="text-4xl md:text-5xl font-extrabold text-gray-900 mb-2">강대한</h1>
               <p class="text-xl text-gray-600 font-medium">Frontend Engineer</p>
@@ -295,6 +316,7 @@
                   <a href="https://twinfamily.github.io" target="_blank">twinfamily.github.io</a>
               </div>
             </div>
+            <!-- //인적사항 영역 -->
         </header>
 
         <section class="mb-16">
@@ -338,7 +360,7 @@
                 </div>
             </div>
 
-            <div class="timeline-row">
+            <div class="timeline-row pdf-break-inside">
                 <div class="timeline-left mb-2 md:mb-0">
                     <div class="period-text">2018.02 - 2023.11</div>
                     <div class="text-sm text-gray-400 font-light">5년 10개월</div>
@@ -602,7 +624,7 @@
             </div>
         </section>
 
-        <section class="mb-16">
+        <section class="mb-16 pdf-break-inside">
             <h2 class="section-title">ETC</h2>
 
             <div class="timeline-row">
